@@ -1,0 +1,83 @@
+Java Developer Skills Test — Console Banking Application
+
+Objective
+Build a small Java console-based banking application that demonstrates practical use of the four pillars of Object-Oriented Programming:
+
+* Abstraction
+* Encapsulation
+* Inheritance
+* Polymorphism
+
+Your implementation should follow clean code principles and be runnable entirely from the console.
+
+✅ Functional Requirements:
+Account Types
+The system must support two types of bank accounts:
+* Checking Account
+* Savings Account
+
+Each account must have:
+* Account number
+* Owner name
+* Balance
+
+Basic Banking Operations
+
+The user must be able to:
+* Deposit money
+* Withdraw money
+* Check account balance
+* Switch between accounts
+
+Validation rules:
+
+* Deposit amount must be greater than zero
+* Withdrawal amount must be greater than zero
+* Cannot withdraw more than current balance
+* Savings account must enforce a withdrawal limit of $300 per transaction
+
+Console Menu
+Provide a simple text-based menu allowing the user to:
+
+* Switch account
+* Make a deposit
+* Make a withdrawal
+* Check balance
+* Exit program
+* Loop until the user chooses to exit.
+
+🎯 OOP Requirements (Mandatory)
+Abstraction
+
+* You must use an abstract class named Account that defines:
+* Common fields (account number, owner, balance)
+* A deposit() method (implemented in base class)
+* An abstract withdraw() method (implemented in subclasses)
+
+Encapsulation
+
+* All fields in the Account class must be private or protected
+* Provide getters/setters only when appropriate
+* Balance may be protected if you want subclasses to access it directly
+
+Inheritance
+
+* The classes CheckingAccount and SavingsAccount must both extend the abstract Account class
+
+Polymorphism
+
+* withdraw(double amount) must behave differently for each account type
+* The main program must treat accounts polymorphically, e.g.:
+
+Account activeAccount = new CheckingAccount(...);
+
+
+Switching accounts should simply switch the reference but continue using the Account type.
+
+🧩 Technical Requirements
+
+* Must be written in Java 8+
+* No external libraries (only standard Java)
+* Use clean, readable code structure
+* Use correct OOP principles (not just "syntactically correct classes")
+* Application should run from a single main() method
