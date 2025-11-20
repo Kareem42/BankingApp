@@ -21,8 +21,6 @@ public abstract class Account {
         return accountNumber;
     }
 
-    public void getBalance() {
-    }
     public void getWithdraw() {
     }
 

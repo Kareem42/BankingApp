@@ -22,7 +22,6 @@ public class Communication {
                 switch (choice) {
                     case 1:
                         accountType();
-//                        activeAccount.getBalance();
                         continue;
                         case 2:
                             accountType();
@@ -54,22 +53,26 @@ public class Communication {
 
         int choice = input.nextInt();
 
-        switch (choice) {
-            case 1:
-                System.out.print("Enter amount to deposit: ");
-                double deposit = input.nextDouble();
-                checkingAccount.getDeposit(deposit);
-                break;
-            case 2:
-                System.out.print("Enter amount to withdraw: ");
-                double withdraw = input.nextDouble();
-                savingAccount.getWithdraw(withdraw);
-                break;
-            default:
-                break;
+        // why doesn't continue work within this switch statement?
+        // for loop will not work
+        // while loop could work, possibly
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter amount to deposit: ");
+                    double deposit = input.nextDouble();
+                    checkingAccount.getDeposit(deposit);
+                    break;
+                case 2:
+                    System.out.print("Enter amount to withdraw: ");
+                    double withdraw = input.nextDouble();
+//                    checkingAccount.getWithdraw(withdraw);
+                    break;
+                default:
+                    break;
+            }
         }
-       input.close();
+//       input.close();
     }
-}
+
 
 

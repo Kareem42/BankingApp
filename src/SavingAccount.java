@@ -1,4 +1,4 @@
-// child
+// child class
 
 public class SavingAccount extends Account {
     private double balance;
@@ -16,17 +16,14 @@ public class SavingAccount extends Account {
         return 1425;
     }
 
-    @Override
-    public void getWithdraw() {
-        getBalance();
-    }
+    public double getBalance() {return 3000.00;}
 
     @Override
     public void getDeposit(double amount) {
         if (amount > 0) {
             balance += amount;
-            System.out.println("Deposited " + amount + " in checking account #" + accountNumber
-            + " your new balance is: " + balance);
+            System.out.println("Deposited " + amount + " in checking account #" + getAccountNumber()
+            + " your new balance is: " + (getBalance() + amount));
         } else  {
             System.out.println("Insufficient funds");
         }
@@ -36,8 +33,8 @@ public class SavingAccount extends Account {
     public void getWithdraw(double amount) {
         if (amount > 0 && (balance - amount) >= 0) {
             balance -= amount;
-            System.out.println("Withdrawing " + amount + " in checking account #" + accountNumber +
-                    " your new balance is: " + balance);
+            System.out.println("Withdrawing " + amount + " in checking account #" + getAccountNumber() +
+                    " your new balance is: " + (getBalance() - amount));
         } else   {
             System.out.println("Insufficient funds");
         }
