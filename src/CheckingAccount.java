@@ -3,8 +3,6 @@
 public class CheckingAccount extends Account {
     private double balance;
     private int accountNumber;
-    private double deposit;
-    private double withdraw;
 
     public CheckingAccount() {}
 
@@ -12,9 +10,8 @@ public class CheckingAccount extends Account {
         super(ownerName, accountNumber, balance);
         this.balance = balance;
         this.accountNumber = accountNumber;
-        this.deposit = 0;
-        this.withdraw = 0;
     }
+
     public int getAccountNumber() {
         return 2546;
     }

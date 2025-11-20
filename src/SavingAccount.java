@@ -11,6 +11,7 @@ public class SavingAccount extends Account {
         this.balance = balance;
         this.accountNumber = accountNumber;
     }
+
     public int getAccountNumber() {
         return 1425;
     }
