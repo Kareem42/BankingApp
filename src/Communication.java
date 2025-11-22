@@ -77,6 +77,8 @@ public class Communication {
                 }
                 break;
         }
+        //
+        //
         // NoSuchElementException shows with input.close().....
         // input.close();
     }
