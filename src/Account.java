@@ -1,4 +1,5 @@
 // Parent class
+// Using Abstraction
 
 public abstract class Account {
     private String ownerName;
@@ -21,8 +22,12 @@ public abstract class Account {
         return accountNumber;
     }
 
+    public double getBalance() { return balance; }
+
     public void getWithdraw() {
     }
+
+    public void getDeposit() {}
 
     public abstract void getWithdraw(double amount);
 
@@ -31,4 +36,5 @@ public abstract class Account {
     public abstract void depositToString();
 
     public abstract void withdrawToString();
+
 }

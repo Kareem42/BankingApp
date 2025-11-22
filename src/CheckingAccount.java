@@ -1,7 +1,7 @@
-// Child class
+// Child class - Inheritance
 
 public class CheckingAccount extends Account {
-    private double balance;
+    protected double balance;
     private int accountNumber;
 
     public CheckingAccount() {}
@@ -16,29 +16,31 @@ public class CheckingAccount extends Account {
         return 2546;
     }
 
+    @Override
     public double getBalance() {
-        return 300.00;
+        return 3500.00;
     }
 
     @Override
     public void getDeposit(double amount) {
-        if (amount > 0) {
+        if (amount > balance) {
             balance += amount;
             System.out.println("Deposited " + amount + " in checking account #" + getAccountNumber()
-            + " with balance: " + (getBalance() + amount));
-        } else  {
-            System.out.println("Insufficient funds");
+            + " and your new balance is " + (getBalance() + amount));
+        } else {
+            System.out.println("Please enter an amount that is greater than 0.");
         }
     }
 
     @Override
     public void getWithdraw(double amount) {
-        if (amount > 0 && (balance - amount) >= 0) {
+        if (amount > 0 && (balance - amount) <= balance) {
             balance -= amount;
             System.out.println("Withdrawing " + amount + " in checking account #" + getAccountNumber() +
-                    " with balance: " + (getBalance() - amount));
-        } else   {
-            System.out.println("Insufficient funds");
+                    " and your new balance is " + (getBalance() - amount));
+        } else {
+            System.out.println("Amount to withdraw is over the $300 limit per transaction. " +
+                    "Please enter an amount that does not exceed $300.");
         }
     }
 
