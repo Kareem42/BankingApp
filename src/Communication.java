@@ -3,6 +3,10 @@ import java.util.InputMismatchException;
 
 public class Communication {
     public void presentOption() {
+        // Need to fix console to actually switch between checking account or savings account
+        // Possible solutions:
+        // 1. Store the accounts as instance variables
+        // 2. Create methods that handles Deposits and Withdraws between accounts
         Account activeAccount = new CheckingAccount();
         Scanner sc = new Scanner(System.in);
 
@@ -74,13 +78,10 @@ public class Communication {
                     checkingAccount.getWithdraw(withdraw);
                 } else if (choice == 2) {
                     savingAccount.getWithdraw(withdraw);
+                } else {
+                    System.out.println("Invalid input. Try again");
                 }
-                break;
         }
-        //
-        //
-        // NoSuchElementException shows with input.close().....
-        // input.close();
     }
 }
 
