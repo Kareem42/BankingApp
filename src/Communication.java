@@ -39,23 +39,23 @@ public class Communication {
                             case 1:
                                 double checkingBalance = checkingAccount.getBalance();
                                 System.out.println("Your checking balance is $" + checkingBalance);
-                                break;
+                                continue;
                             case 2:
                                 handleDeposit(checkingAccount, sc);
 //                                System.out.print("How much do you want to deposit?");
 //                                double depositAmount = sc.nextDouble();
 //                                checkingAccount.Deposit(depositAmount);
 //                                System.out.println("case 2");
-                                break;
+                                continue;
                             case 3:
                                 handleWithdraw(checkingAccount, sc);
 //                                System.out.print("How much do you want to withdraw?");
 //                                double withdrawAmount = sc.nextDouble();
 //                                checkingAccount.Withdraw(withdrawAmount);
 //                                System.out.println("case 3");
-                                break;
+                                continue;
                         }
-                        continue;
+                        break;
                     case 2:
                         System.out.println("1. Check Balance");
                         System.out.println("2. Deposit Money");
@@ -67,30 +67,29 @@ public class Communication {
                             case 1:
                                 double savingsBalance = savingsAccount.getBalance();
                                 System.out.println("Your savings balance is $" + savingsBalance);
-                                break;
+                                continue;
                             case 2:
                                 handleDeposit(savingsAccount, sc);
 //                                System.out.print("How much do you want to deposit?");
 //                                double depositAmount = sc.nextDouble();
 //                                savingsAccount.Deposit(depositAmount);
 //                                System.out.println("case 2");
-                                break;
+                                continue;
                             case 3:
                                 handleWithdraw(savingsAccount, sc);
 //                                System.out.print("How much do you want to withdraw?");
 //                                double withdrawAmount = sc.nextDouble();
 //                                savingsAccount.Withdraw(withdrawAmount);
 //                                System.out.println("case 3");
-                                break;
+                                continue;
                         }
-                        break;
-                    case 4:
+                    default:
                         break;
                 }
-                break;
             } catch (InputMismatchException e) {
                 System.out.println("Invalid choice. Try again");
             }
+            break;
         }
         sc.close();
     }
