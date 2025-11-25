@@ -6,8 +6,6 @@ public abstract class Account {
     private int accountNumber;
     protected double balance;
 
-    public Account() {}
-
     public Account(String ownerName, int accountNumber, double balance) {
         this.ownerName = ownerName;
         this.accountNumber = accountNumber;
@@ -15,7 +13,7 @@ public abstract class Account {
     }
 
     public String getOwnerName() {
-        return "John Doe";
+        return ownerName;
     }
 
     public int getAccountNumber() {
@@ -24,17 +22,8 @@ public abstract class Account {
 
     public double getBalance() { return balance; }
 
-    public void getWithdraw() {
-    }
+    public abstract void Withdraw(double amount);
 
-    public void getDeposit() {}
-
-    public abstract void getWithdraw(double amount);
-
-    public abstract void getDeposit(double amount);
-
-    public abstract void depositToString();
-
-    public abstract void withdrawToString();
+    public abstract void Deposit(double amount);
 
 }
