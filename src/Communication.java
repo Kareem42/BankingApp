@@ -6,23 +6,20 @@ public class Communication {
     private SavingAccount savingsAccount;
 
     public void presentOption() {
-
-        // Need to fix console to actually switch between checking account or savings account
-        // Possible solutions:
-        // 1. Store the accounts as instance variables
-        // 2. Create methods that handles Deposits and Withdraws between accounts
-
         String accountUser = "John Doe";
         double balance = 300.00;
         int accountNumber = 2456;
         checkingAccount = new CheckingAccount(accountUser, accountNumber, balance);
         savingsAccount = new SavingAccount(accountUser, accountNumber, balance);
+    }
 
+    public void accountOptions() {
         Scanner sc = new Scanner(System.in);
+        presentOption();
 
         while (true) {
             try {
-                System.out.println("Welcome " + accountUser + ", to your Friendly Neighborhood Bank.");
+                System.out.println("Welcome to your Friendly Neighborhood Bank.");
                 System.out.println("Select the account that you want to view: ");
                 System.out.println("1. Checking");
                 System.out.println("2. Savings");
@@ -98,6 +95,7 @@ public class Communication {
         sc.close();
     }
 
+
     public void handleDeposit(Account account, Scanner sc) {
         System.out.print("How much do you want to deposit into your account:");
         double depositAmount = sc.nextDouble();
@@ -110,6 +108,7 @@ public class Communication {
         account.Withdraw(withdrawAmount);
     }
 }
+
 
 //                System.out.println("Welcome, " + checkingAccount.getOwnerName() + ", to your Friendly Neighborhood Bank!");
 //                System.out.println("What would you like to do today?");
