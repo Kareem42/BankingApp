@@ -11,6 +11,7 @@ public class Communication {
         // Possible solutions:
         // 1. Store the accounts as instance variables
         // 2. Create methods that handles Deposits and Withdraws between accounts
+
         String accountUser = "John Doe";
         double balance = 300.00;
         int accountNumber = 2456;
@@ -21,6 +22,7 @@ public class Communication {
 
         while (true) {
             try {
+                System.out.println("Welcome " + accountUser + ", to your Friendly Neighborhood Bank.");
                 System.out.println("Select the account that you want to view: ");
                 System.out.println("1. Checking");
                 System.out.println("2. Savings");
@@ -33,51 +35,81 @@ public class Communication {
                         System.out.println("1. Check Balance");
                         System.out.println("2. Deposit Money");
                         System.out.println("3. Withdraw Money");
-                        int action = sc.nextInt();
-                        switch (action) {
+                        System.out.println("4. Exit");
+                        System.out.print("Enter your option: ");
+                        int checkingActions = sc.nextInt();
+                        switch (checkingActions) {
                             case 1:
                                 double checkingBalance = checkingAccount.getBalance();
                                 System.out.println("Your checking balance is $" + checkingBalance);
                                 break;
                             case 2:
-                                System.out.println("How much do you want to deposit?");
-                                double depositAmount = sc.nextDouble();
-                                checkingAccount.Deposit(depositAmount);
-                                System.out.println("case 2");
+                                handleDeposit(checkingAccount, sc);
+//                                System.out.print("How much do you want to deposit?");
+//                                double depositAmount = sc.nextDouble();
+//                                checkingAccount.Deposit(depositAmount);
+//                                System.out.println("case 2");
                                 break;
                             case 3:
-                                System.out.println("How much do you want to withdraw?");
-                                double  withdrawAmount = sc.nextDouble();
-                                checkingAccount.Withdraw(withdrawAmount);
-                                System.out.println("case 3");
+                                handleWithdraw(checkingAccount, sc);
+//                                System.out.print("How much do you want to withdraw?");
+//                                double withdrawAmount = sc.nextDouble();
+//                                checkingAccount.Withdraw(withdrawAmount);
+//                                System.out.println("case 3");
                                 break;
                         }
-                        break;
+                        continue;
                     case 2:
                         System.out.println("1. Check Balance");
                         System.out.println("2. Deposit Money");
                         System.out.println("3. Withdraw Money");
+                        System.out.println("4. Exit");
+                        System.out.print("Enter your option: ");
                         int savingActions = sc.nextInt();
                         switch (savingActions) {
                             case 1:
-                                double checkingBalance = savingsAccount.getBalance();
-                                System.out.println("Your savings balance is $" + checkingBalance);
+                                double savingsBalance = savingsAccount.getBalance();
+                                System.out.println("Your savings balance is $" + savingsBalance);
                                 break;
                             case 2:
-                                System.out.println("How much do you want to deposit?");
-                                double depositAmount = sc.nextDouble();
-                                savingsAccount.Deposit(depositAmount);
-                                System.out.println("case 2");
+                                handleDeposit(savingsAccount, sc);
+//                                System.out.print("How much do you want to deposit?");
+//                                double depositAmount = sc.nextDouble();
+//                                savingsAccount.Deposit(depositAmount);
+//                                System.out.println("case 2");
                                 break;
                             case 3:
-                                System.out.println("How much do you want to withdraw?");
-                                double  withdrawAmount = sc.nextDouble();
-                                savingsAccount.Withdraw(withdrawAmount);
-                                System.out.println("case 3");
+                                handleWithdraw(savingsAccount, sc);
+//                                System.out.print("How much do you want to withdraw?");
+//                                double withdrawAmount = sc.nextDouble();
+//                                savingsAccount.Withdraw(withdrawAmount);
+//                                System.out.println("case 3");
                                 break;
                         }
                         break;
+                    case 4:
+                        break;
                 }
+                break;
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid choice. Try again");
+            }
+        }
+        sc.close();
+    }
+
+    public void handleDeposit(Account account, Scanner sc) {
+        System.out.print("How much do you want to deposit into your account:");
+        double depositAmount = sc.nextDouble();
+        account.Deposit(depositAmount);
+    }
+
+    public void handleWithdraw(Account account, Scanner sc) {
+        System.out.print("How much do you want to withdraw from your account:");
+        double withdrawAmount = sc.nextDouble();
+        account.Withdraw(withdrawAmount);
+    }
+}
 
 //                System.out.println("Welcome, " + checkingAccount.getOwnerName() + ", to your Friendly Neighborhood Bank!");
 //                System.out.println("What would you like to do today?");
@@ -114,13 +146,10 @@ public class Communication {
 //                                ", for using our Friendly Neighborhood Bank!");
 //                }
 //                break;
-            } catch (InputMismatchException e) {
-                System.out.println("Invalid choice. Try again");
-            }
+
 //            sc.close();
-        }
-    }
-}
+
+
 
 //    public void accountType(int accountAction, Scanner input) {
 //        System.out.println("Select the account that you want to view: ");

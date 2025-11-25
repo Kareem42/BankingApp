@@ -20,8 +20,8 @@ public class SavingAccount extends Account {
     public void Withdraw(double amount) {
         if (amount > 0 && (balance - amount) <= balance) {
             balance -= amount;
-            System.out.println("Withdrawing " + amount + " in savings account #" + getAccountNumber() +
-                    " and your new balance is " + balance);
+            System.out.println("Withdrawing $" + amount + " in savings account #" + getAccountNumber() +
+                    " and your new balance is $" + balance);
         } else {
             System.out.println("Amount to withdraw is over the $300 limit per transaction. " +
                     "Please enter an amount that does not exceed $300.");

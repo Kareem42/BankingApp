@@ -1,9 +1,10 @@
 // Parent class
 // Using Abstraction
+// final is used for the Owner Name and account number in order for those variables not to change
 
 public abstract class Account {
-    private String ownerName;
-    private int accountNumber;
+    private final String ownerName;
+    private final int accountNumber;
     protected double balance;
 
     public Account(String ownerName, int accountNumber, double balance) {
