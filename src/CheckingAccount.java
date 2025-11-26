@@ -6,6 +6,11 @@ public class CheckingAccount extends Account {
     }
 
     @Override
+    public String getAccountType() {
+        return "checking account";
+    }
+
+    @Override
     public void Deposit(double amount) {
         if (amount > 0) {
             balance += amount;

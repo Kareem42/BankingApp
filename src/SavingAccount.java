@@ -6,6 +6,11 @@ public class SavingAccount extends Account {
     }
 
     @Override
+    public String getAccountType() {
+        return "savings account";
+    }
+
+    @Override
     public void Deposit(double amount) {
         if (amount < 0) {
             System.out.println("Please enter a positive amount");

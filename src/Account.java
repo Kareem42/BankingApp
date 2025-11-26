@@ -27,4 +27,6 @@ public abstract class Account {
 
     public abstract void Deposit(double amount);
 
+    public abstract String getAccountType();
+
 }
