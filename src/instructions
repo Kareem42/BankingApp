@@ -11,13 +11,13 @@ Build a small Java console-based banking application that demonstrates practical
 Your implementation should follow clean code principles and be runnable entirely from the console.
 
 ✅ Functional Requirements:
-Account Types
+BankingClasses.Account Types
 The system must support two types of bank accounts:
-* Checking Account
-* Savings Account
+* Checking BankingClasses.Account
+* Savings BankingClasses.Account
 
 Each account must have:
-* Account number
+* BankingClasses.Account number
 * Owner name
 * Balance
 
@@ -49,30 +49,30 @@ Provide a simple text-based menu allowing the user to:
 🎯 OOP Requirements (Mandatory)
 Abstraction
 
-* You must use an abstract class named Account that defines:
+* You must use an abstract class named BankingClasses.Account that defines:
 * Common fields (account number, owner, balance)
 * A deposit() method (implemented in base class)
 * An abstract withdraw() method (implemented in subclasses)
 
 Encapsulation
 
-* All fields in the Account class must be private or protected
+* All fields in the BankingClasses.Account class must be private or protected
 * Provide getters/setters only when appropriate
 * Balance may be protected if you want subclasses to access it directly
 
 Inheritance
 
-* The classes CheckingAccount and SavingsAccount must both extend the abstract Account class
+* The classes BankingClasses.CheckingAccount and SavingsAccount must both extend the abstract BankingClasses.Account class
 
 Polymorphism
 
 * withdraw(double amount) must behave differently for each account type
 * The main program must treat accounts polymorphically, e.g.:
 
-Account activeAccount = new CheckingAccount(...);
+BankingClasses.Account activeAccount = new BankingClasses.CheckingAccount(...);
 
 
-Switching accounts should simply switch the reference but continue using the Account type.
+Switching accounts should simply switch the reference but continue using the BankingClasses.Account type.
 
 🧩 Technical Requirements
 

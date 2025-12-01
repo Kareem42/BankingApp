@@ -1,4 +1,4 @@
-// Child class - Inheritance
+package BankingClasses;// Child class - Inheritance
 
 public class CheckingAccount extends Account {
     public CheckingAccount(String ownerName, int accountNumber, double balance) {

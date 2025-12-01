@@ -1,3 +1,5 @@
+package BankingClasses;
+
 import java.util.Scanner;
 import java.util.InputMismatchException;
 
@@ -54,18 +56,19 @@ public class Communication {
         System.out.println("3. Withdraw Money");
         System.out.print("Enter your option: ");
         int actions = sc.nextInt();
+
         switch (actions) {
             case 1:
-                double savingsBalance = account.getBalance();
-                System.out.println("Your balance in your " + account.getAccountType() + " is $" + savingsBalance);
+                double accountBalance = account.getBalance();
+                System.out.println("Your balance in your " + account.getAccountType() + " is $" + accountBalance);
                 break;
             case 2:
-                System.out.print("How much do you want to deposit into your " + account.getAccountType() + ":");
+                System.out.print("How much do you want to deposit into your " + account.getAccountType() + "? ");
                 double depositAmount = sc.nextDouble();
                 account.Deposit(depositAmount);
                 break;
             case 3:
-                System.out.print("How much do you want to withdraw from your" + account.getAccountType() + ":");
+                System.out.print("How much do you want to withdraw from your " + account.getAccountType() + "? ");
                 double withdrawAmount = sc.nextDouble();
                 account.Withdraw(withdrawAmount);
                 break;
@@ -76,7 +79,7 @@ public class Communication {
     }
 }
 
-//    public Account doSomething(Scanner sc) {
+//    public BankingClasses.Account doSomething(Scanner sc) {
 //        System.out.println("Welcome to your Friendly Neighborhood Bank.");
 //        System.out.println("Select the account that you want to view: ");
 //        System.out.println("1. Checking");
@@ -92,7 +95,7 @@ public class Communication {
 //        System.out.print("How much do you want to deposit into your account:");
 //        double depositAmount = sc.nextDouble();
 //        depositAmount.Deposit(depositAmount);
-//        Account deposit = doSomething(sc);
+//        BankingClasses.Account deposit = doSomething(sc);
 //        deposit.Deposit(depositAmount);
 //    }
 //

@@ -1,4 +1,4 @@
-// Parent class
+package BankingClasses;// Parent class
 // Using Abstraction
 // final is used for the Owner Name and account number in order for those variables not to change
 
@@ -21,12 +21,13 @@ public abstract class Account {
         return accountNumber;
     }
 
-    public double getBalance() { return balance; }
+    public double getBalance() {
+        return balance;
+    }
 
     public abstract void Withdraw(double amount);
 
     public abstract void Deposit(double amount);
 
     public abstract String getAccountType();
-
 }
