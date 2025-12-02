@@ -26,8 +26,17 @@ public abstract class Account {
     }
 
     public abstract void Withdraw(double amount);
+//    public abstract void Deposit(double amount);
 
-    public abstract void Deposit(double amount);
+    public void Deposit(double amount) {
+        if (amount > 0) {
+            balance += amount;
+            System.out.println("Deposited $" + amount + " in checking account #" + getAccountNumber()
+                    + " and your new balance is $" + balance);
+        } else {
+            System.out.println("Please enter an amount that is greater than 0.");
+        }
+    }
 
     public abstract String getAccountType();
 }
