@@ -1,15 +1,11 @@
-package BankingClasses;// Parent class
-// Using Abstraction
-// final is used for the Owner Name and account number in order for those variables not to change
+package BankingClasses;
 
 public abstract class Account {
     private final String ownerName;
-    private final int accountNumber;
     protected double balance;
 
-    public Account(String ownerName, int accountNumber, double balance) {
+    public Account(String ownerName, double balance) {
         this.ownerName = ownerName;
-        this.accountNumber = accountNumber;
         this.balance = balance;
     }
 
@@ -18,25 +14,31 @@ public abstract class Account {
     }
 
     public int getAccountNumber() {
-        return accountNumber;
+        return getGeneratedAccountNumber();
     }
 
     public double getBalance() {
         return balance;
     }
 
-    public abstract void Withdraw(double amount);
+    public void Withdraw(double amount) throws Exception {
+        if  (amount > balance){
+            throw new Exception("Insufficient Funds");
+        }
+            balance -= amount;
+    }
 //    public abstract void Deposit(double amount);
 
-    public void Deposit(double amount) {
-        if (amount > 0) {
-            balance += amount;
-            System.out.println("Deposited $" + amount + " in checking account #" + getAccountNumber()
-                    + " and your new balance is $" + balance);
-        } else {
-            System.out.println("Please enter an amount that is greater than 0.");
+    public void Deposit(double amount) throws Exception {
+        if (amount < 0) {
+            throw new Exception("Amount is less than 0");
         }
+        balance += amount;
     }
 
     public abstract String getAccountType();
+
+    public int getGeneratedAccountNumber() {
+        return (int)(Math.random() * 9000) + 1000;
+    }
 }
