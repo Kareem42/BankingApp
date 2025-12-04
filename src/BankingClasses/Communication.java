@@ -113,11 +113,12 @@ public class Communication {
 
         System.out.print("Enter your name: ");
         String name = sc.next();
+
         if (choice == 1) {
-            System.out.println("Welcome, " + name + ". Your checking account number is: "
+            System.out.println("Welcome, " + name + ". Your new checking account number is: "
                     + checkingAccount.getGeneratedAccountNumber());
         } else {
-            System.out.println("Welcome, " + name + ". Your checking account number is: "
+            System.out.println("Welcome, " + name + ". Your new savings account number is: "
                     + savingsAccount.getGeneratedAccountNumber());
         }
     }
