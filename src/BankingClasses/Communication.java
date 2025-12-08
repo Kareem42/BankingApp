@@ -24,10 +24,9 @@ public class Communication {
         - To create a new account, the user will need their name and the application will generate a random account number.
         - All new accounts balance will start at $5.00
         */
+        logIn(sc,checkingAccount);
 
         while (true) {
-            logIn(sc,checkingAccount);
-
             try {
                 System.out.println("Select the account that you want to view: ");
                 System.out.println("1. Checking");
@@ -114,6 +113,8 @@ public class Communication {
         String name = sc.next();
 
         if (choice == 1) {
+
+
             System.out.println("Welcome, " + name + ". Your new checking account number is: "
                     + account.getGeneratedAccountNumber());
             accountActions(sc, checkingAccount);
