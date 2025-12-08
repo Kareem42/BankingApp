@@ -2,7 +2,7 @@ package BankingClasses;
 // Child class - inheritance
 
 public class SavingAccount extends Account {
-    public SavingAccount(String ownerName,  double balance) {
+    public SavingAccount(String ownerName, double balance) {
         super(ownerName, balance);
     }
 

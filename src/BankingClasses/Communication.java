@@ -1,7 +1,7 @@
 package BankingClasses;
 
-import java.util.Scanner;
-import java.util.InputMismatchException;
+import java.util.*;
+import java.io.*;
 
 public class Communication {
     private CheckingAccount checkingAccount;
@@ -18,15 +18,17 @@ public class Communication {
         Scanner sc = new Scanner(System.in);
         presentOption();
 
-        // Get more understanding between passing by reference vs passing by value
-        // Add option to create an account and log in.
-        // To log in, you must enter your account number.
-        // To create a new account, the user will need their name and the application will generate a random account number
-        // All new accounts balance will start at $5.00
+        /* Get more understanding between passing by reference vs passing by value
+        - Add option to create an account and log in.
+        - To log in, you must enter your account number.
+        - To create a new account, the user will need their name and the application will generate a random account number.
+        - All new accounts balance will start at $5.00
+        */
 
         while (true) {
+            logIn(sc,checkingAccount);
+
             try {
-                newCustomer(sc);
                 System.out.println("Select the account that you want to view: ");
                 System.out.println("1. Checking");
                 System.out.println("2. Savings");
@@ -97,15 +99,12 @@ public class Communication {
         }
     }
 
-    public void newCustomer(Scanner sc) {
-
+    public void newCustomer(Scanner sc, Account account) {
         /* This method will handle the sign-up logic for new users.
          Need to figure out how to store the generated account number as the actual account number
          for either checking or savings account.
         */
-
-        System.out.println("Welcome to your Friendly Neighborhood Bank.");
-        System.out.println("If you are a new user, please select which account you would like to create: ");
+        System.out.println("Welcome new user! please select which account you would like to create: ");
         System.out.println("1. Checking");
         System.out.println("2. Savings");
         System.out.print("Enter your option: ");
@@ -116,10 +115,65 @@ public class Communication {
 
         if (choice == 1) {
             System.out.println("Welcome, " + name + ". Your new checking account number is: "
-                    + checkingAccount.getGeneratedAccountNumber());
+                    + account.getGeneratedAccountNumber());
+            accountActions(sc, checkingAccount);
         } else {
             System.out.println("Welcome, " + name + ". Your new savings account number is: "
-                    + savingsAccount.getGeneratedAccountNumber());
+                    + account.getGeneratedAccountNumber());
+            accountActions(sc, savingsAccount);
+        }
+    }
+
+    public void logIn(Scanner sc, Account account) {
+        // This method will handle the log in for all users
+        // Console console = System.console();
+
+        int pinNumber = account.getAccountNumber();
+        String userName = account.getOwnerName();
+        int attempts = 0;
+        boolean loggedIn = false;
+
+        System.out.println(pinNumber);
+        System.out.println("Welcome to your Friendly Neighborhood Bank.");
+        System.out.println("Are you a new user?");
+        System.out.println("1. Yes");
+        System.out.println("2. No");
+        System.out.print("Enter your option: ");
+        int choice = sc.nextInt();
+
+        switch (choice) {
+            case 1:
+                newCustomer(sc, account);
+                break;
+            case 2: {
+                try {
+                    while (attempts < 3 && !loggedIn) {
+                        attempts++;
+                        System.out.print("Please enter your name: ");
+                        String name = sc.next();
+                        System.out.print("Please enter your 4 digit pin number: ");
+                        int userPin = sc.nextInt();
+                        // console.readPassword();
+
+                        if ((userPin == pinNumber) && name.equals(userName)) {
+                            System.out.println("Successfully logged in! Welcome back!");
+                            loggedIn = true;
+                        } else {
+                            System.out.println("Invalid input. Try again");
+                        }
+                    }
+
+                    if (!loggedIn) {
+                        System.out.println("Maximum attempts reached");
+                    }
+                } catch (Exception e) {
+                    System.out.println("Invalid input. Try again" + e.getMessage());
+                    sc.nextLine();
+                }
+                break;
+            }
+            default:
+                System.out.println("Invalid choice. Try again");
         }
     }
 }
