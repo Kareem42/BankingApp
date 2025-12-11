@@ -1,8 +1,9 @@
 package BankingClasses;
 
-public abstract class Account {
-    private final String ownerName;
+public abstract class Account  {
+    private String ownerName;
     protected double balance;
+    private int accountNumber;
 
     public Account(String ownerName, double balance) {
         this.ownerName = ownerName;
@@ -11,11 +12,18 @@ public abstract class Account {
 
 
     public String getOwnerName() {
-        return "Bob"; // returning an actual name for testing purposes
+        return ownerName; // returning an actual name for testing purposes
     }
 
+    public void setOwnerName(String ownerName) {
+        this.ownerName = ownerName;
+    }
     public int getAccountNumber() {
-        return getGeneratedAccountNumber();
+        return accountNumber;
+    }
+
+    public void setAccountNumber(int accountNumber) {
+        getGeneratedAccountNumber();
     }
 
     public double getBalance() {
