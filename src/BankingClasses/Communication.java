@@ -16,19 +16,14 @@ public class Communication {
 
     public void accountOptions() {
         Scanner sc = new Scanner(System.in);
-
         account[0] = new CheckingAccount("Dennis", 5.00, 1234);
-        account[1] = new SavingAccount("Dennis", 5.00, 1234);
-        account[2] = new CheckingAccount("Justin", 5.00, 5678);
-        account[3] = new SavingAccount("Justin", 5.00, 5678);
+        account[1] = new SavingAccount("Dennis", 5.00, 5678);
 
         checkingAccount = (CheckingAccount) account[0];
         savingsAccount = (SavingAccount) account[1];
-        checkingAccount = (CheckingAccount) account[2];
-        savingsAccount = (SavingAccount) account[3];
 
+        logIn(sc, account);
         while (true) {
-            logIn(sc, account);
             try {
                 System.out.println("Select the account that you want to view: ");
                 System.out.println("1. Checking");
@@ -74,7 +69,8 @@ public class Communication {
         switch (actions) {
             case 1:
                 double accountBalance = account.getBalance();
-                System.out.println("Your balance in your " + account.getAccountType() + " is $" + accountBalance);
+                System.out.println("Your balance in your " + account.getAccountType() +  account.getAccountNumber()
+                        + " is $" + accountBalance);
                 break;
             case 2:
                 try {
@@ -88,7 +84,6 @@ public class Communication {
                     System.out.println(e.getMessage());
                 }
                 break;
-
             case 3: {
                 try {
                     System.out.print("How much do you want to deposit into your " + account.getAccountType()
@@ -108,7 +103,6 @@ public class Communication {
                 break;
         }
     }
-
 
     public void newCustomer(Scanner sc, Account accounts) {
         /* This method will handle the sign-up logic for new users.
@@ -147,7 +141,6 @@ public class Communication {
         System.out.print("Enter your option: ");
         int choice = sc.nextInt();
 
-
         switch (choice) {
             case 1:
 //                newCustomer(sc, users);
@@ -178,7 +171,6 @@ public class Communication {
                                     } else if (user instanceof CheckingAccount) {
                                         foundChekingAccount = (CheckingAccount) user;
                                     }
-
                                     loggedIn = true;
                                 }
                             }
@@ -188,7 +180,6 @@ public class Communication {
                             this.checkingAccount = foundChekingAccount;
                             this.savingsAccount = foundSavingAccount;
                             System.out.println("Successfully logged in! Welcome back, " + name + "!");
-
                         }
                     }
                     if (attempts == 3 && !loggedIn) {
