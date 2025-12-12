@@ -5,32 +5,30 @@ import java.util.*;
 public class Communication {
     private CheckingAccount checkingAccount;
     private SavingAccount savingsAccount;
-    private Account[] users = new Account[10];
+    private final Account[] account = new Account[10];
 
-
-    public void userList() {
-        String accountUser = "";
-        double balance = 5.00;
-        users[0] = new CheckingAccount("Dennis", balance);
-        users[1] = new SavingAccount("Dennis", balance);
-        users[2] = new CheckingAccount("Justin", balance);
-        users[3] = new SavingAccount("Justin", balance);
-    }
-
-    public void accountOptions() {
-        Scanner sc = new Scanner(System.in);
-        userList();
-
-        /* Get more understanding between passing by reference vs passing by value
+    /* Get more understanding between passing by reference vs passing by value
         - Add option to create an account and log in.
         - To log in, you must enter your account number.
         - To create a new account, the user will need their name and the application will generate a random account number.
         - All new accounts balance will start at $5.00
         */
 
-            logIn(sc, users);
+    public void accountOptions() {
+        Scanner sc = new Scanner(System.in);
+
+        account[0] = new CheckingAccount("Dennis", 5.00, 1234);
+        account[1] = new SavingAccount("Dennis", 5.00, 1234);
+        account[2] = new CheckingAccount("Justin", 5.00, 5678);
+        account[3] = new SavingAccount("Justin", 5.00, 5678);
+
+        checkingAccount = (CheckingAccount) account[0];
+        savingsAccount = (SavingAccount) account[1];
+        checkingAccount = (CheckingAccount) account[2];
+        savingsAccount = (SavingAccount) account[3];
 
         while (true) {
+            logIn(sc, account);
             try {
                 System.out.println("Select the account that you want to view: ");
                 System.out.println("1. Checking");
@@ -48,61 +46,69 @@ public class Communication {
                     continue;
                 }
 
-                users = (choice == 1) ? new CheckingAccount[]{checkingAccount} : new SavingAccount[]{savingsAccount};
-                accountActions(sc, users[0]);
+                Account selectedAcount = null;
+                if (choice == 1) {
+                    selectedAcount = checkingAccount;
+                } else {
+                    selectedAcount = savingsAccount;
+                }
+
+                accountActions(sc, selectedAcount);
 
             } catch (InputMismatchException e) {
                 System.out.println("Invalid choice. Try again" + e.getMessage());
                 sc.nextLine();
             }
-            throw new InputMismatchException();
         }
         sc.close();
     }
 
-    public void accountActions(Scanner sc, Account users) {
+    public void accountActions(Scanner sc, Account account) {
         System.out.println("1. Check Balance");
         System.out.println("2. Deposit Money");
         System.out.println("3. Withdraw Money");
         System.out.print("Enter your option: ");
         int actions = sc.nextInt();
 
+
         switch (actions) {
             case 1:
-                double accountBalance = users.getBalance();
-                System.out.println("Your balance in your " + users.getAccountType() + " is $" + accountBalance);
+                double accountBalance = account.getBalance();
+                System.out.println("Your balance in your " + account.getAccountType() + " is $" + accountBalance);
                 break;
-            case 2: {
+            case 2:
                 try {
-                    System.out.print("How much do you want to deposit into your " + users.getAccountType()
-                            + users.getAccountNumber() + ": ");
+                    System.out.print("How much do you want to deposit into your " + account.getAccountType()
+                            + account.getAccountNumber() + ": ");
                     double depositAmount = sc.nextDouble();
-                    users.Deposit(depositAmount);
-                    System.out.println("You have deposited $" + depositAmount + " into " + users.getAccountType()
-                            + users.getAccountNumber() + ". Your current balance is $" + users.getBalance());
+                    account.Deposit(depositAmount);
+                    System.out.println("You have deposited $" + depositAmount + " into " + account.getAccountType()
+                            + account.getAccountNumber() + ". Your current balance is $" + account.getBalance());
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
                 }
                 break;
-            }
+
             case 3: {
                 try {
-                    System.out.print("How much do you want to deposit into your " + users.getAccountType()
-                            + users.getAccountNumber() + ": ");
+                    System.out.print("How much do you want to deposit into your " + account.getAccountType()
+                            + account.getAccountNumber() + ": ");
                     double withdrawAmount = sc.nextDouble();
-                    users.Withdraw(withdrawAmount);
-                    System.out.println("You have withdrawn $" + withdrawAmount + " into " + users.getAccountType()
-                            + users.getAccountNumber() + ". Your current balance is $" + users.getBalance());
+                    account.Withdraw(withdrawAmount);
+                    System.out.println("You have withdrawn $" + withdrawAmount + " into " + account.getAccountType()
+                            + account.getAccountNumber() + ". Your current balance is $" + account.getBalance());
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
                 }
-                break;
             }
+            break;
+
             default:
                 System.out.println("Invalid choice. Try again");
                 break;
         }
     }
+
 
     public void newCustomer(Scanner sc, Account accounts) {
         /* This method will handle the sign-up logic for new users.
@@ -120,67 +126,80 @@ public class Communication {
 
         if (choice == 1) {
             System.out.println("Welcome, " + name + ". Your new checking account number is: "
-                    + accounts.getGeneratedAccountNumber());
+                    + accounts.getAccountNumber());
             accountActions(sc, accounts);
         } else {
             System.out.println("Welcome, " + name + ". Your new savings account number is: "
-                    + accounts.getGeneratedAccountNumber());
+                    + accounts.getAccountNumber());
             accountActions(sc, accounts);
         }
     }
 
     public void logIn(Scanner sc, Account[] users) {
+
         // This method will handle the log in for all users
         // Console console = System.console();
 
-        for (Account user : users) {
-            int num = user.getAccountNumber();
-            String userName = user.getOwnerName();
-            int attempts = 0;
-            boolean loggedIn = false;
+        System.out.println("Welcome to your Friendly Neighborhood Bank.");
+        System.out.println("Are you a new user?");
+        System.out.println("1. Yes");
+        System.out.println("2. No");
+        System.out.print("Enter your option: ");
+        int choice = sc.nextInt();
 
-            System.out.println(num);
-            System.out.println("Welcome to your Friendly Neighborhood Bank.");
-            System.out.println("Are you a new user?");
-            System.out.println("1. Yes");
-            System.out.println("2. No");
-            System.out.print("Enter your option: ");
-            int choice = sc.nextInt();
 
-                switch (choice) {
-                    case 1:
-                        newCustomer(sc, user);
-                        break;
-                    case 2: {
-                        try {
-                            while (attempts < 3 && !loggedIn) {
-                                attempts++;
-                                System.out.print("Please enter your name: ");
-                                String name = sc.next();
-                                System.out.print("Please enter your 4 digit pin number: ");
-                                int userPin = sc.nextInt();
-                                // console.readPassword();
+        switch (choice) {
+            case 1:
+//                newCustomer(sc, users);
+                break;
+            case 2: {
+                try {
+                    int attempts = 0;
+                    boolean loggedIn = false;
+                    CheckingAccount foundChekingAccount = null;
+                    SavingAccount foundSavingAccount = null;
 
+                    while (attempts < 3 && !loggedIn) {
+                        attempts++;
+                        System.out.print("Please enter your name: ");
+                        String name = sc.next();
+                        System.out.print("Please enter your 4 digit pin number: ");
+                        int userPin = sc.nextInt();
+                        // console.readPassword();
+
+                        for (Account user : users) {
+                            if (user != null) {
+                                String userName = user.getOwnerName();
                                 int pinNumber = user.getAccountNumber();
+
                                 if ((userPin == pinNumber) && name.equals(userName)) {
-                                    System.out.println("Successfully logged in! Welcome back, " + name + "!");
+                                    if (user instanceof SavingAccount) {
+                                        foundSavingAccount = (SavingAccount) user;
+                                    } else if (user instanceof CheckingAccount) {
+                                        foundChekingAccount = (CheckingAccount) user;
+                                    }
+
                                     loggedIn = true;
-                                } else {
-                                    System.out.println("Invalid input. Try again");
                                 }
                             }
+                        }
 
-                            if (!loggedIn) {
-                                System.out.println("Maximum attempts reached");
-                            }
-                        } catch (Exception e) {
-                            System.out.println("Invalid input. Try again" + e.getMessage());
-                            sc.nextLine();
+                        if (loggedIn) {
+                            this.checkingAccount = foundChekingAccount;
+                            this.savingsAccount = foundSavingAccount;
+                            System.out.println("Successfully logged in! Welcome back, " + name + "!");
+
                         }
                     }
+                    if (attempts == 3 && !loggedIn) {
+                        System.out.println("Maximum attempts reached");
+                        break;
+                    }
+                } catch (Exception e) {
+                    System.out.println("Invalid input. Try again" + e.getMessage());
+                    sc.nextLine();
                 }
             }
         }
     }
-
-
+}

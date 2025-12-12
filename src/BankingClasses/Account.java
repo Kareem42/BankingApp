@@ -5,9 +5,10 @@ public abstract class Account  {
     protected double balance;
     private int accountNumber;
 
-    public Account(String ownerName, double balance) {
+    public Account(String ownerName, double balance,  int accountNumber) {
         this.ownerName = ownerName;
         this.balance = balance;
+        this.accountNumber = accountNumber;
     }
 
 
@@ -23,12 +24,10 @@ public abstract class Account  {
     }
 
     public void setAccountNumber(int accountNumber) {
-        getGeneratedAccountNumber();
+        this.accountNumber = accountNumber;
     }
 
-    public double getBalance() {
-        return balance;
-    }
+    public double getBalance() {return balance;}
 
     public void Withdraw(double amount) throws Exception {
         if  (amount > balance){
