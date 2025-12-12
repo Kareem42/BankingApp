@@ -2,27 +2,37 @@ package BankingClasses;
 
 import java.util.*;
 
-public class Communication {
-    private CheckingAccount checkingAccount;
-    private SavingAccount savingsAccount;
-    private final Account[] account = new Account[10];
-
-    /* Get more understanding between passing by reference vs passing by value
+/* Get more understanding between passing by reference vs passing by value
         - Add option to create an account and log in.
         - To log in, you must enter your account number.
         - To create a new account, the user will need their name and the application will generate a random account number.
         - All new accounts balance will start at $5.00
         */
 
+
+public class Communication {
+    private CheckingAccount checkingAccount;
+    private SavingAccount savingsAccount;
+
+    private final Account[] account = new Account[10];
+
+    public final Account[] existingUser1 = { new CheckingAccount("Dennis", 5.00, 1234),
+            new SavingAccount("Dennis", 5.00, 5678) };
+    public final Account[] existingUser2 = { new CheckingAccount("Justin", 5.00, 1456),
+            new SavingAccount("Justin", 5.00, 4356) };
+
+
     public void accountOptions() {
         Scanner sc = new Scanner(System.in);
         account[0] = new CheckingAccount("Dennis", 5.00, 1234);
         account[1] = new SavingAccount("Dennis", 5.00, 5678);
 
+
         checkingAccount = (CheckingAccount) account[0];
         savingsAccount = (SavingAccount) account[1];
 
         logIn(sc, account);
+        newCustomer(sc, checkingAccount);
         while (true) {
             try {
                 System.out.println("Select the account that you want to view: ");
@@ -105,6 +115,7 @@ public class Communication {
     }
 
     public void newCustomer(Scanner sc, Account accounts) {
+
         /* This method will handle the sign-up logic for new users.
          Need to figure out how to store the generated account number as the actual account number
          for either checking or savings account.
@@ -117,16 +128,17 @@ public class Communication {
 
         System.out.print("Enter your name: ");
         String name = sc.next();
+        int newAccountNumber = accounts.getAccountNumber();
 
+        accounts.setOwnerName(name);
         if (choice == 1) {
             System.out.println("Welcome, " + name + ". Your new checking account number is: "
-                    + accounts.getAccountNumber());
-            accountActions(sc, accounts);
+                    + newAccountNumber);
         } else {
             System.out.println("Welcome, " + name + ". Your new savings account number is: "
-                    + accounts.getAccountNumber());
-            accountActions(sc, accounts);
+                    + newAccountNumber);
         }
+        accountActions(sc, accounts);
     }
 
     public void logIn(Scanner sc, Account[] users) {
