@@ -11,67 +11,33 @@ import java.util.*;
 
 
 public class Communication {
-    private CheckingAccount checkingAccount;
-    private SavingAccount savingsAccount;
-
-    private final Account[] account = new Account[10];
-
-    public final Account[] existingUser1 = { new CheckingAccount("Dennis", 5.00, 1234),
-            new SavingAccount("Dennis", 5.00, 5678) };
-    public final Account[] existingUser2 = { new CheckingAccount("Justin", 5.00, 1456),
-            new SavingAccount("Justin", 5.00, 4356) };
-
+    private final List<Account> accounts = new ArrayList<Account>();
 
     public void accountOptions() {
         Scanner sc = new Scanner(System.in);
-        account[0] = new CheckingAccount("Dennis", 5.00, 1234);
-        account[1] = new SavingAccount("Dennis", 5.00, 5678);
+        accounts.add( new CheckingAccount("Dennis", 5.00, 1234));
+        accounts.add( new SavingAccount("Dennis", 5.00, 5678));
 
-
-        checkingAccount = (CheckingAccount) account[0];
-        savingsAccount = (SavingAccount) account[1];
-
-        logIn(sc, account);
-        newCustomer(sc, checkingAccount);
-        while (true) {
-            try {
-                System.out.println("Select the account that you want to view: ");
-                System.out.println("1. Checking");
-                System.out.println("2. Savings");
-                System.out.println("3. Logout");
-                System.out.print("Enter your option: ");
-
-                int choice = sc.nextInt();
-                if (choice == 3) {
-                    System.out.println("Thank you for using our Friendly Neighborhood Bank");
-                    break;
-                }
-                if (choice != 1 && choice != 2) {
-                    System.out.println("Invalid option");
-                    continue;
-                }
-
-                Account selectedAcount = null;
-                if (choice == 1) {
-                    selectedAcount = checkingAccount;
-                } else {
-                    selectedAcount = savingsAccount;
-                }
-
-                accountActions(sc, selectedAcount);
-
-            } catch (InputMismatchException e) {
-                System.out.println("Invalid choice. Try again" + e.getMessage());
-                sc.nextLine();
+        Account userLogIn = null;
+        String result = "N";
+        while (!Objects.equals(result, "Y")) {
+            while (userLogIn == null) {
+                userLogIn = logIn(sc);
             }
+            while (userLogIn != null) {
+                userLogIn = accountActions(sc, userLogIn);
+            }
+
+            System.out.println("Do you want to exit? Y or N");
+            result = sc.next();
         }
-        sc.close();
     }
 
-    public void accountActions(Scanner sc, Account account) {
+    public Account accountActions(Scanner sc, Account account) {
         System.out.println("1. Check Balance");
         System.out.println("2. Deposit Money");
         System.out.println("3. Withdraw Money");
+        System.out.println("4. Logout");
         System.out.print("Enter your option: ");
         int actions = sc.nextInt();
 
@@ -79,7 +45,7 @@ public class Communication {
         switch (actions) {
             case 1:
                 double accountBalance = account.getBalance();
-                System.out.println("Your balance in your " + account.getAccountType() +  account.getAccountNumber()
+                System.out.println("Your balance in your " + account.getAccountType() + account.getAccountNumber()
                         + " is $" + accountBalance);
                 break;
             case 2:
@@ -107,14 +73,17 @@ public class Communication {
                 }
             }
             break;
+            case 4:
+                return null;
 
             default:
                 System.out.println("Invalid choice. Try again");
                 break;
         }
+        return account;
     }
 
-    public void newCustomer(Scanner sc, Account accounts) {
+    public Account newCustomer(Scanner sc) {
 
         /* This method will handle the sign-up logic for new users.
          Need to figure out how to store the generated account number as the actual account number
@@ -128,20 +97,27 @@ public class Communication {
 
         System.out.print("Enter your name: ");
         String name = sc.next();
-        int newAccountNumber = accounts.getAccountNumber();
 
-        accounts.setOwnerName(name);
+        Account userAccount = null;
+        if  (choice == 1) {
+            userAccount = new CheckingAccount(name, 5.00, 3434);
+        } else {
+            userAccount = new SavingAccount(name, 5.00, 3434);
+        }
+
         if (choice == 1) {
             System.out.println("Welcome, " + name + ". Your new checking account number is: "
-                    + newAccountNumber);
+                    + userAccount);
         } else {
             System.out.println("Welcome, " + name + ". Your new savings account number is: "
-                    + newAccountNumber);
+                    + userAccount);
         }
-        accountActions(sc, accounts);
+                accounts.add(userAccount);
+        return userAccount;
+//        accountActions(sc, accounts);
     }
 
-    public void logIn(Scanner sc, Account[] users) {
+    public Account logIn(Scanner sc) {
 
         // This method will handle the log in for all users
         // Console console = System.console();
@@ -155,16 +131,13 @@ public class Communication {
 
         switch (choice) {
             case 1:
-//                newCustomer(sc, users);
-                break;
+//               Account newUserAccount = newCustomer(sc);
+               return newCustomer(sc);
             case 2: {
                 try {
                     int attempts = 0;
-                    boolean loggedIn = false;
-                    CheckingAccount foundChekingAccount = null;
-                    SavingAccount foundSavingAccount = null;
 
-                    while (attempts < 3 && !loggedIn) {
+                    while (attempts <= 3) {
                         attempts++;
                         System.out.print("Please enter your name: ");
                         String name = sc.next();
@@ -172,31 +145,16 @@ public class Communication {
                         int userPin = sc.nextInt();
                         // console.readPassword();
 
-                        for (Account user : users) {
-                            if (user != null) {
-                                String userName = user.getOwnerName();
-                                int pinNumber = user.getAccountNumber();
+                        for (Account userAccount : accounts) {
+                            if (userAccount != null) {
+                                String userName = userAccount.getOwnerName();
+                                int pinNumber = userAccount.getAccountNumber();
 
                                 if ((userPin == pinNumber) && name.equals(userName)) {
-                                    if (user instanceof SavingAccount) {
-                                        foundSavingAccount = (SavingAccount) user;
-                                    } else if (user instanceof CheckingAccount) {
-                                        foundChekingAccount = (CheckingAccount) user;
-                                    }
-                                    loggedIn = true;
+                                    return userAccount;
                                 }
                             }
                         }
-
-                        if (loggedIn) {
-                            this.checkingAccount = foundChekingAccount;
-                            this.savingsAccount = foundSavingAccount;
-                            System.out.println("Successfully logged in! Welcome back, " + name + "!");
-                        }
-                    }
-                    if (attempts == 3 && !loggedIn) {
-                        System.out.println("Maximum attempts reached");
-                        break;
                     }
                 } catch (Exception e) {
                     System.out.println("Invalid input. Try again" + e.getMessage());
@@ -204,5 +162,6 @@ public class Communication {
                 }
             }
         }
+       return null;
     }
 }
