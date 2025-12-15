@@ -8,12 +8,12 @@ import java.util.*;
         - All new accounts balance will start at $5.00
         */
 public class Communication {
-    private final List<Account> accounts = new ArrayList<Account>();
+    private final List<Account> accounts = new ArrayList<>();
 
     public void accountOptions() {
         Scanner sc = new Scanner(System.in);
-        accounts.add(new CheckingAccount("Dennis", 5.00, 1234));
-        accounts.add(new SavingAccount("Dennis", 5.00, 5678));
+        accounts.add(new CheckingAccount("Dennis", 5.00, 1234, 1010));
+        accounts.add(new SavingAccount("Dennis", 5.00, 5678, 1000));
 
         Account userLogIn = null;
         String result = "N";
@@ -94,19 +94,22 @@ public class Communication {
         System.out.print("Enter your name: ");
         String name = sc.next();
 
+        System.out.print("Enter your customer number: ");
+        int customPinNumber = sc.nextInt();
+
         Account userAccount = null;
         if  (choice == 1) {
-            userAccount = new CheckingAccount(name, 5.00, 3434);
+            userAccount = new CheckingAccount(name, 5.00, 3434,customPinNumber);
         } else {
-            userAccount = new SavingAccount(name, 5.00, 3434);
+            userAccount = new SavingAccount(name, 5.00, 3434, customPinNumber);
         }
 
         if (choice == 1) {
             System.out.println("Welcome, " + name + ". Your new checking account number is: "
-                    + userAccount);
+                    + userAccount.getAccountNumber());
         } else {
             System.out.println("Welcome, " + name + ". Your new savings account number is: "
-                    + userAccount);
+                    + userAccount.getAccountNumber());
         }
                 accounts.add(userAccount);
         return userAccount;
@@ -144,9 +147,11 @@ public class Communication {
                         for (Account userAccount : accounts) {
                             if (userAccount != null) {
                                 String userName = userAccount.getOwnerName();
-                                int pinNumber = userAccount.getAccountNumber();
+                                int pinNumber = userAccount.getPin();
 
                                 if ((userPin == pinNumber) && name.equals(userName)) {
+                                    System.out.println("Welcome back, " + name + "!. You are currently viewing your "
+                                            + userAccount.getAccountType() + userAccount.getAccountNumber() + ". How can we help you today? ");
                                     return userAccount;
                                 }
                             }
