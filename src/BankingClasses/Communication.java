@@ -1,22 +1,19 @@
 package BankingClasses;
 
 import java.util.*;
-
 /* Get more understanding between passing by reference vs passing by value
         - Add option to create an account and log in.
         - To log in, you must enter your account number.
         - To create a new account, the user will need their name and the application will generate a random account number.
         - All new accounts balance will start at $5.00
         */
-
-
 public class Communication {
     private final List<Account> accounts = new ArrayList<Account>();
 
     public void accountOptions() {
         Scanner sc = new Scanner(System.in);
-        accounts.add( new CheckingAccount("Dennis", 5.00, 1234));
-        accounts.add( new SavingAccount("Dennis", 5.00, 5678));
+        accounts.add(new CheckingAccount("Dennis", 5.00, 1234));
+        accounts.add(new SavingAccount("Dennis", 5.00, 5678));
 
         Account userLogIn = null;
         String result = "N";
@@ -84,7 +81,6 @@ public class Communication {
     }
 
     public Account newCustomer(Scanner sc) {
-
         /* This method will handle the sign-up logic for new users.
          Need to figure out how to store the generated account number as the actual account number
          for either checking or savings account.
