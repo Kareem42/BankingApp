@@ -15,12 +15,13 @@ public abstract class Account  {
 
 
     public String getOwnerName() {
-        return ownerName; // returning an actual name for testing purposes
+        return ownerName;
     }
 
     public void setOwnerName(String ownerName) {
         this.ownerName = ownerName;
     }
+
     public int getAccountNumber() {
         return accountNumber;
     }
@@ -54,6 +55,7 @@ public abstract class Account  {
     public int getPin() {
         return pin;
     }
+
     public void setPin(int pin) {
         this.pin = pin;
     }

@@ -26,7 +26,7 @@ public class Communication {
             }
 
             System.out.println("Do you want to exit? Y or N");
-            result = sc.next();
+            result = sc.next().toUpperCase();
         }
     }
 
@@ -37,7 +37,6 @@ public class Communication {
         System.out.println("4. Logout");
         System.out.print("Enter your option: ");
         int actions = sc.nextInt();
-
 
         switch (actions) {
             case 1:
@@ -98,8 +97,8 @@ public class Communication {
         int customPinNumber = sc.nextInt();
 
         Account userAccount = null;
-        if  (choice == 1) {
-            userAccount = new CheckingAccount(name, 5.00, 3434,customPinNumber);
+        if (choice == 1) {
+            userAccount = new CheckingAccount(name, 5.00, 3434, customPinNumber);
         } else {
             userAccount = new SavingAccount(name, 5.00, 3434, customPinNumber);
         }
@@ -111,13 +110,12 @@ public class Communication {
             System.out.println("Welcome, " + name + ". Your new savings account number is: "
                     + userAccount.getAccountNumber());
         }
-                accounts.add(userAccount);
+        accounts.add(userAccount);
         return userAccount;
 //        accountActions(sc, accounts);
     }
 
     public Account logIn(Scanner sc) {
-
         // This method will handle the log in for all users
         // Console console = System.console();
 
@@ -142,7 +140,6 @@ public class Communication {
                         String name = sc.next();
                         System.out.print("Please enter your 4 digit pin number: ");
                         int userPin = sc.nextInt();
-                        // console.readPassword();
 
                         for (Account userAccount : accounts) {
                             if (userAccount != null) {
