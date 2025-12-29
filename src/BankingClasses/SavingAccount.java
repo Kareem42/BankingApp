@@ -11,13 +11,11 @@ public class SavingAccount extends Account {
         return "savings account #";
     }
 
-
     @Override
-    public void Withdraw(double amount) throws Exception {
-        if (amount > 300 )
-        {
+    public void withdraw(double amount) throws Exception {
+        if (amount > 300) {
             throw new Exception("Savings account can't withdraw more than $300");
         }
-        super.Withdraw(amount); // Used to explicitly call the overridden version of the method from the superclass.
+        super.withdraw(amount); // Used to explicitly call the overridden version of the method from the superclass.
     }
 }

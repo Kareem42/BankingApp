@@ -1,10 +1,15 @@
 package BankingClasses;
 
-public abstract class Account  {
+
+import java.util.Scanner;
+
+public abstract class Account {
+    Scanner input = new Scanner(System.in);
     private String ownerName;
     protected double balance;
     private int accountNumber;
     private int pin;
+
 
     public Account(String ownerName, double balance, int accountNumber, int pin) {
         this.ownerName = ownerName;
@@ -12,7 +17,6 @@ public abstract class Account  {
         this.accountNumber = accountNumber;
         this.pin = pin;
     }
-
 
     public String getOwnerName() {
         return ownerName;
@@ -30,16 +34,18 @@ public abstract class Account  {
         this.accountNumber = accountNumber;
     }
 
-    public double getBalance() {return balance;}
-
-    public void Withdraw(double amount) throws Exception {
-        if  (amount > balance){
-            throw new Exception("Insufficient Funds");
-        }
-            balance -= amount;
+    public double getBalance() {
+        return balance;
     }
 
-    public void Deposit(double amount) throws Exception {
+    public void withdraw(double amount) throws Exception {
+        if (amount > balance) {
+            throw new Exception("Insufficient Funds");
+        }
+        balance -= amount;
+    }
+
+    public void deposit(double amount) throws Exception {
         if (amount < 0) {
             throw new Exception("Amount is less than 0");
         }
@@ -49,14 +55,24 @@ public abstract class Account  {
     public abstract String getAccountType();
 
     public int getGeneratedAccountNumber() {
-        return (int)(Math.random() * 9000) + 1000;
+        return (int) (Math.random() * 9000) + 1000;
+    }
+
+    public void setGeneratedAccountNumber(int accountNumber) {
+        this.accountNumber = accountNumber;
     }
 
     public int getPin() {
-        return pin;
+        return 1234;
     }
 
     public void setPin(int pin) {
-        this.pin = pin;
+        System.out.print("Enter your custom pin number: ");
+        this.pin = input.nextInt();
+    }
+
+    public void getGreeting() {
+        System.out.println("Welcome back, " + ownerName + "!. You are currently viewing your "
+                + getAccountType() + getAccountNumber() + ". How can we help you today? ");
     }
 }

@@ -9,11 +9,12 @@ import java.util.*;
         */
 public class Communication {
     private final List<Account> accounts = new ArrayList<>();
+    private int pin;
 
     public void accountOptions() {
         Scanner sc = new Scanner(System.in);
-        accounts.add(new CheckingAccount("Dennis", 5.00, 1234, 1010));
-        accounts.add(new SavingAccount("Dennis", 5.00, 5678, 1000));
+        accounts.add(new CheckingAccount("Dennis", 5.00, 2312, pin));
+        accounts.add(new SavingAccount("Dennis", 5.00, 5678, pin));
 
         Account userLogIn = null;
         String result = "N";
@@ -49,7 +50,7 @@ public class Communication {
                     System.out.print("How much do you want to deposit into your " + account.getAccountType()
                             + account.getAccountNumber() + ": ");
                     double depositAmount = sc.nextDouble();
-                    account.Deposit(depositAmount);
+                    account.deposit(depositAmount);
                     System.out.println("You have deposited $" + depositAmount + " into " + account.getAccountType()
                             + account.getAccountNumber() + ". Your current balance is $" + account.getBalance());
                 } catch (Exception e) {
@@ -61,7 +62,7 @@ public class Communication {
                     System.out.print("How much do you want to deposit into your " + account.getAccountType()
                             + account.getAccountNumber() + ": ");
                     double withdrawAmount = sc.nextDouble();
-                    account.Withdraw(withdrawAmount);
+                    account.withdraw(withdrawAmount);
                     System.out.println("You have withdrawn $" + withdrawAmount + " into " + account.getAccountType()
                             + account.getAccountNumber() + ". Your current balance is $" + account.getBalance());
                 } catch (Exception e) {
@@ -93,14 +94,13 @@ public class Communication {
         System.out.print("Enter your name: ");
         String name = sc.next();
 
-        System.out.print("Enter your customer number: ");
-        int customPinNumber = sc.nextInt();
-
         Account userAccount = null;
         if (choice == 1) {
-            userAccount = new CheckingAccount(name, 5.00, 3434, customPinNumber);
+            userAccount = new CheckingAccount(name, 5.00, 3434, pin);
+            userAccount.setPin(sc.nextInt());
         } else {
-            userAccount = new SavingAccount(name, 5.00, 3434, customPinNumber);
+            userAccount = new SavingAccount(name, 5.00, 3434, pin);
+            userAccount.setPin(sc.nextInt());
         }
 
         if (choice == 1) {
@@ -117,7 +117,8 @@ public class Communication {
 
     public Account logIn(Scanner sc) {
         // This method will handle the log in for all users
-        // Console console = System.console();
+
+       // List<Account> matchAccounts = new ArrayList<>();
 
         System.out.println("Welcome to your Friendly Neighborhood Bank.");
         System.out.println("Are you a new user?");
@@ -129,7 +130,7 @@ public class Communication {
         switch (choice) {
             case 1:
 //               Account newUserAccount = newCustomer(sc);
-               return newCustomer(sc);
+                return newCustomer(sc);
             case 2: {
                 try {
                     int attempts = 0;
@@ -147,11 +148,11 @@ public class Communication {
                                 int pinNumber = userAccount.getPin();
 
                                 if ((userPin == pinNumber) && name.equals(userName)) {
-                                    System.out.println("Welcome back, " + name + "!. You are currently viewing your "
-                                            + userAccount.getAccountType() + userAccount.getAccountNumber() + ". How can we help you today? ");
+                                    userAccount.getGreeting();
                                     return userAccount;
                                 }
                             }
+                            return userAccount;
                         }
                     }
                 } catch (Exception e) {
@@ -160,6 +161,6 @@ public class Communication {
                 }
             }
         }
-       return null;
+        return null;
     }
 }
