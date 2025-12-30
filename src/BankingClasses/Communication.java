@@ -8,15 +8,15 @@ import java.util.*;
         - All new accounts balance will start at $5.00
         */
 public class Communication {
-    private final List<Account> accounts = new ArrayList<>();
-    private int pin;
+    private final List<User> accounts = new ArrayList<>();
+
 
     public void accountOptions() {
         Scanner sc = new Scanner(System.in);
-        accounts.add(new CheckingAccount("Dennis", 5.00, 2312, pin));
-        accounts.add(new SavingAccount("Dennis", 5.00, 5678, pin));
+//        accounts.add(new CheckingAccount("Dennis", 5.00, 2312, pin));
+//        accounts.add(new SavingAccount("Dennis", 5.00, 5678, pin));
 
-        Account userLogIn = null;
+        User userLogIn = null;
         String result = "N";
         while (!Objects.equals(result, "Y")) {
             while (userLogIn == null) {
@@ -31,7 +31,16 @@ public class Communication {
         }
     }
 
-    public Account accountActions(Scanner sc, Account account) {
+    public User accountActions(Scanner sc, User user) {
+        System.out.println("Which account would you like to view?");
+        System.out.println("1. Checking");
+        System.out.println("2. Savings");
+        System.out.print("Enter your option: ");
+        int accountChoice = sc.nextInt();
+
+        Account account = user.getUserAccountList().get(accountChoice - 1);
+
+
         System.out.println("1. Check Balance");
         System.out.println("2. Deposit Money");
         System.out.println("3. Withdraw Money");
@@ -42,17 +51,17 @@ public class Communication {
         switch (actions) {
             case 1:
                 double accountBalance = account.getBalance();
-                System.out.println("Your balance in your " + account.getAccountType() + account.getAccountNumber()
+                System.out.println("Your balance in your " + account.getAccountType() + user.getAccountNumber()
                         + " is $" + accountBalance);
                 break;
             case 2:
                 try {
                     System.out.print("How much do you want to deposit into your " + account.getAccountType()
-                            + account.getAccountNumber() + ": ");
+                            + user.getAccountNumber() + ": ");
                     double depositAmount = sc.nextDouble();
                     account.deposit(depositAmount);
                     System.out.println("You have deposited $" + depositAmount + " into " + account.getAccountType()
-                            + account.getAccountNumber() + ". Your current balance is $" + account.getBalance());
+                            + user.getAccountNumber() + ". Your current balance is $" + account.getBalance());
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
                 }
@@ -60,11 +69,11 @@ public class Communication {
             case 3: {
                 try {
                     System.out.print("How much do you want to deposit into your " + account.getAccountType()
-                            + account.getAccountNumber() + ": ");
+                            + user.getAccountNumber() + ": ");
                     double withdrawAmount = sc.nextDouble();
                     account.withdraw(withdrawAmount);
-                    System.out.println("You have withdrawn $" + withdrawAmount + " into " + account.getAccountType()
-                            + account.getAccountNumber() + ". Your current balance is $" + account.getBalance());
+                    System.out.println("You have withdrawn $" + withdrawAmount + " from " + account.getAccountType()
+                            + user.getAccountNumber() + ". Your current balance is $" + account.getBalance());
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
                 }
@@ -77,10 +86,10 @@ public class Communication {
                 System.out.println("Invalid choice. Try again");
                 break;
         }
-        return account;
+        return user;
     }
 
-    public Account newCustomer(Scanner sc) {
+    public User newCustomer(Scanner sc) {
         /* This method will handle the sign-up logic for new users.
          Need to figure out how to store the generated account number as the actual account number
          for either checking or savings account.
@@ -94,31 +103,30 @@ public class Communication {
         System.out.print("Enter your name: ");
         String name = sc.next();
 
-        Account userAccount = null;
-        if (choice == 1) {
-            userAccount = new CheckingAccount(name, 5.00, 3434, pin);
-            userAccount.setPin(sc.nextInt());
-        } else {
-            userAccount = new SavingAccount(name, 5.00, 3434, pin);
-            userAccount.setPin(sc.nextInt());
-        }
+        System.out.print("Enter your 4 digit pin number: ");
+        int pin = sc.nextInt();
 
-        if (choice == 1) {
-            System.out.println("Welcome, " + name + ". Your new checking account number is: "
-                    + userAccount.getAccountNumber());
-        } else {
-            System.out.println("Welcome, " + name + ". Your new savings account number is: "
-                    + userAccount.getAccountNumber());
-        }
+        User userAccount = new User(name, pin, pin);
+//        if (choice == 1) {
+//            userAccount = new UserAccount(name, 5001, pin);
+//            userAccount.setPinNumber(sc.nextInt());
+//        } else {
+//            userAccount = new UserAccount(name, 5000,  pin);
+//            userAccount.setPinNumber(sc.nextInt());
+//        }
+
+        System.out.println(choice == 1 ? "Welcome, " + name + ". Your new checking account number is: "
+                + userAccount.getAccountNumber() : "Welcome, " + name + ". Your new savings account number is: "
+                + userAccount.getAccountNumber());
+
         accounts.add(userAccount);
         return userAccount;
 //        accountActions(sc, accounts);
     }
 
-    public Account logIn(Scanner sc) {
+    public User logIn(Scanner sc) {
         // This method will handle the log in for all users
-
-       // List<Account> matchAccounts = new ArrayList<>();
+        // List<Account> matchAccounts = new ArrayList<>();
 
         System.out.println("Welcome to your Friendly Neighborhood Bank.");
         System.out.println("Are you a new user?");
@@ -142,14 +150,13 @@ public class Communication {
                         System.out.print("Please enter your 4 digit pin number: ");
                         int userPin = sc.nextInt();
 
-                        for (Account userAccount : accounts) {
+                        for (User userAccount : accounts) {
                             if (userAccount != null) {
-                                String userName = userAccount.getOwnerName();
-                                int pinNumber = userAccount.getPin();
+                                String userName = userAccount.getUserId();
+                                int pinNumber = userAccount.getPinNumber();
 
                                 if ((userPin == pinNumber) && name.equals(userName)) {
                                     userAccount.getGreeting();
-                                    return userAccount;
                                 }
                             }
                             return userAccount;
