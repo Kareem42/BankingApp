@@ -2,8 +2,8 @@ package BankingClasses;
 // Child class - Inheritance
 
 public class CheckingAccount extends Account {
-    public CheckingAccount(String ownerName, double balance, int accountNumber, int pin) {
-        super(ownerName, balance, accountNumber, pin);
+    public CheckingAccount(String userId, double balance, int accountNumber, int pin) {
+        super(userId, balance, accountNumber, pin);
     }
 
     @Override

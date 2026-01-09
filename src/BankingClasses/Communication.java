@@ -10,7 +10,6 @@ import java.util.*;
 public class Communication {
     private final List<User> accounts = new ArrayList<>();
 
-
     public void accountOptions() {
         Scanner sc = new Scanner(System.in);
 //        accounts.add(new CheckingAccount("Dennis", 5.00, 2312, pin));
@@ -40,7 +39,6 @@ public class Communication {
 
         Account account = user.getUserAccountList().get(accountChoice - 1);
 
-
         System.out.println("1. Check Balance");
         System.out.println("2. Deposit Money");
         System.out.println("3. Withdraw Money");
@@ -51,29 +49,31 @@ public class Communication {
         switch (actions) {
             case 1:
                 double accountBalance = account.getBalance();
-                System.out.println("Your balance in your " + account.getAccountType() + user.getAccountNumber()
+                System.out.println("Your balance in your " + account.getAccountType() + account.getAccountNumber()
                         + " is $" + accountBalance);
                 break;
             case 2:
                 try {
                     System.out.print("How much do you want to deposit into your " + account.getAccountType()
-                            + user.getAccountNumber() + ": ");
+                            + account.getAccountNumber() + ": ");
                     double depositAmount = sc.nextDouble();
                     account.deposit(depositAmount);
+
                     System.out.println("You have deposited $" + depositAmount + " into " + account.getAccountType()
-                            + user.getAccountNumber() + ". Your current balance is $" + account.getBalance());
+                            + account.getAccountNumber() + ". Your current balance is $" + account.getBalance());
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
                 }
                 break;
             case 3: {
                 try {
-                    System.out.print("How much do you want to deposit into your " + account.getAccountType()
-                            + user.getAccountNumber() + ": ");
+                    System.out.print("How much do you want to withdraw from your " + account.getAccountType()
+                            + account.getAccountNumber() + ": ");
                     double withdrawAmount = sc.nextDouble();
                     account.withdraw(withdrawAmount);
+
                     System.out.println("You have withdrawn $" + withdrawAmount + " from " + account.getAccountType()
-                            + user.getAccountNumber() + ". Your current balance is $" + account.getBalance());
+                            + account.getAccountNumber() + ". Your current balance is $" + account.getBalance());
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
                 }
@@ -87,7 +87,7 @@ public class Communication {
                 break;
         }
         return user;
-    }
+        }
 
     public User newCustomer(Scanner sc) {
         /* This method will handle the sign-up logic for new users.
@@ -106,7 +106,8 @@ public class Communication {
         System.out.print("Enter your 4 digit pin number: ");
         int pin = sc.nextInt();
 
-        User userAccount = new User(name, pin, pin);
+
+        User userAccount = new User(name, pin, 3453);
 //        if (choice == 1) {
 //            userAccount = new UserAccount(name, 5001, pin);
 //            userAccount.setPinNumber(sc.nextInt());
@@ -157,6 +158,7 @@ public class Communication {
 
                                 if ((userPin == pinNumber) && name.equals(userName)) {
                                     userAccount.getGreeting();
+                                    return userAccount;
                                 }
                             }
                             return userAccount;

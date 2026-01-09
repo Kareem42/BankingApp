@@ -2,15 +2,18 @@ package BankingClasses;
 
 public abstract class Account {
     protected double balance;
+    private int accountNumber;
 
     public Account() {
     }
 
-    public Account(String ownerName, double balance, int accountNumber, int pin) {
+    public Account(String userId, double balance, int accountNumber, int pin) {
+        this.balance = balance;
+        this.accountNumber = accountNumber;
     }
 
     public double getBalance() {
-        return 5.00;
+        return balance;
     }
 
     public void withdraw(double amount) throws Exception {
@@ -28,5 +31,9 @@ public abstract class Account {
     }
 
     public abstract String getAccountType();
+
+    public int getAccountNumber() {
+        return accountNumber;
+    }
 
 }

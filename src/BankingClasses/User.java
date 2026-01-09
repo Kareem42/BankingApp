@@ -8,7 +8,7 @@ public class User {
     private final int accountNumber;
     private final List<Account> userAccountList = new ArrayList<>();
 
-    public User(String userId, int pinNumber, int pin) {
+    public User(String userId, int pinNumber, int accountNumber) {
         this.userId = userId;
         this.pinNumber = pinNumber;
         this.accountNumber = getGeneratedAccountNumber();
@@ -16,8 +16,8 @@ public class User {
     }
 
     private void initializeAccounts() {
-        userAccountList.add(new CheckingAccount(userId, 0.0, getGeneratedAccountNumber(), pinNumber));
-        userAccountList.add(new SavingAccount(userId, 0.0, getGeneratedAccountNumber(), pinNumber));
+        userAccountList.add(new CheckingAccount(userId, 5.0, getGeneratedAccountNumber(), pinNumber));
+        userAccountList.add(new SavingAccount(userId, 5.0, getGeneratedAccountNumber(), pinNumber));
     }
 
     public String getUserId() {
