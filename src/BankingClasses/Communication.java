@@ -10,24 +10,106 @@ import java.util.*;
 public class Communication {
     private final List<User> accounts = new ArrayList<>();
 
-    public void accountOptions() {
-        Scanner sc = new Scanner(System.in);
-//        accounts.add(new CheckingAccount("Dennis", 5.00, 2312, pin));
-//        accounts.add(new SavingAccount("Dennis", 5.00, 5678, pin));
+    public User signIn(Scanner sc) {
+        System.out.println("Welcome to your Friendly Neighborhood Bank.");
+        System.out.println("Are you a new user?");
+        System.out.println("1. Yes");
+        System.out.println("2. No");
+        System.out.print("Enter your option: ");
+        int choice = sc.nextInt();
 
-        User userLogIn = null;
-        String result = "N";
-        while (!Objects.equals(result, "Y")) {
-            while (userLogIn == null) {
-                userLogIn = logIn(sc);
-            }
-            while (userLogIn != null) {
-                userLogIn = accountActions(sc, userLogIn);
-            }
+        switch (choice) {
+            case 1:
+                return accountCreation(sc);
+            case 2: {
+                try {
+                    int attempts = 0;
 
-            System.out.println("Do you want to exit? Y or N");
-            result = sc.next().toUpperCase();
+                    while (attempts <= 3) {
+                        attempts++;
+                        System.out.print("Please enter your name: ");
+                        String name = sc.next();
+                        System.out.print("Please enter your 4 digit pin number: ");
+                        int userPin = sc.nextInt();
+
+                        for (User userAccount : accounts) {
+                            if (userAccount != null) {
+                                String userName = String.valueOf(userAccount.getUserName());
+                                int pinNumber = userAccount.pin();
+
+                                if ((userPin == pinNumber) && name.equals(userName)) {
+                                    return userAccount;
+                                }
+                            }
+                            return userAccount;
+                        }
+                    }
+                } catch (Exception e) {
+                    System.out.println("Invalid input. Try again" + e.getMessage());
+                    sc.nextLine();
+                }
+            }
         }
+        return null;
+    }
+
+    public User accountCreation(Scanner sc) {
+        System.out.println("Welcome new user! Please select which account you would like to create: ");
+        System.out.println("1. Checking");
+        System.out.println("2. Savings");
+        System.out.print("Enter your option: ");
+        int choice = sc.nextInt();
+        sc.nextLine();
+
+        while (choice != 1 && choice != 2) {
+            System.out.println("Invalid input. Try again");
+            choice = sc.nextInt();
+            sc.nextLine();
+        }
+
+        System.out.print("Enter a unique username: ");
+        String userName = sc.nextLine().trim();
+
+        System.out.print("Enter your first name: ");
+        String firstName = sc.next().trim();
+
+        System.out.print("Enter your last name: ");
+        String lastName = sc.next().trim();
+
+        System.out.print("Enter your 4 digit pin number: ");
+        int pin = getValidPin(sc);
+
+        // Creating a user and operations with an account type
+        User user = new User(firstName, lastName, userName, pin);
+        UserOperations userOps = new UserOperations(user, pin, user.getUserOperations().getUserAccountList());
+
+        user.setUserOperations(userOps);
+
+//        // Checking for duplicate username
+//        if (isUserNameValid(userName)) {
+//            System.out.println("Username is already in use. Please try again");
+//            return null;
+//        }
+        String accountType;
+        int accountNumber = user.getAccountNumber();
+
+        if (choice == 1) {
+            userOps.createCheckingAccount(5.00);
+            accountNumber = userOps.getCheckingAccountList().getFirst().getAccountNumber();
+            accountType = "checking";
+        } else {
+            userOps.createSavingAccount(5.00);
+            accountNumber = userOps.getSavingAccountList().getFirst().getAccountNumber();
+            accountType = "checking";
+        }
+
+        System.out.printf("Welcome, %s! Your new %s account number is: %s%n",
+                userName, accountType, accountNumber);
+
+        // Storing the new created account (checking or savings)
+        accounts.add(user);
+
+        return user;
     }
 
     public User accountActions(Scanner sc, User user) {
@@ -37,7 +119,7 @@ public class Communication {
         System.out.print("Enter your option: ");
         int accountChoice = sc.nextInt();
 
-        Account account = user.getUserAccountList().get(accountChoice - 1);
+        Account account = user.getUserOperations().getUserAccountList().get(accountChoice - 1);
 
         System.out.println("1. Check Balance");
         System.out.println("2. Deposit Money");
@@ -89,87 +171,60 @@ public class Communication {
         return user;
         }
 
-    public User newCustomer(Scanner sc) {
-        /* This method will handle the sign-up logic for new users.
-         Need to figure out how to store the generated account number as the actual account number
-         for either checking or savings account.
-        */
-        System.out.println("Welcome new user! Please select which account you would like to create: ");
-        System.out.println("1. Checking");
-        System.out.println("2. Savings");
-        System.out.print("Enter your option: ");
-        int choice = sc.nextInt();
+    public void exitOptions() {
+        Scanner sc = new Scanner(System.in);
 
-        System.out.print("Enter your name: ");
-        String name = sc.next();
+        User userLogIn = null;
+        String result = "N";
+        while (!Objects.equals(result, "Y")) {
+            while (userLogIn == null) {
+                userLogIn = signIn(sc);
+            }
+            while (userLogIn != null) {
+                userLogIn = accountActions(sc, userLogIn);
+            }
 
-        System.out.print("Enter your 4 digit pin number: ");
-        int pin = sc.nextInt();
-
-
-        User userAccount = new User(name, pin, 3453);
-//        if (choice == 1) {
-//            userAccount = new UserAccount(name, 5001, pin);
-//            userAccount.setPinNumber(sc.nextInt());
-//        } else {
-//            userAccount = new UserAccount(name, 5000,  pin);
-//            userAccount.setPinNumber(sc.nextInt());
-//        }
-
-        System.out.println(choice == 1 ? "Welcome, " + name + ". Your new checking account number is: "
-                + userAccount.getAccountNumber() : "Welcome, " + name + ". Your new savings account number is: "
-                + userAccount.getAccountNumber());
-
-        accounts.add(userAccount);
-        return userAccount;
-//        accountActions(sc, accounts);
+            System.out.println("Do you want to exit? Y or N");
+            result = sc.next().toUpperCase();
+        }
+        sc.close();
     }
 
-    public User logIn(Scanner sc) {
-        // This method will handle the log in for all users
-        // List<Account> matchAccounts = new ArrayList<>();
+//    // Method used to check for duplicate usernames to ensure that the username that's entered by the user is unique.
+//    private boolean isUserNameValid(String userName) {
+//        return accounts.stream()
+//                .anyMatch(user -> user.getUserName().equalsIgnoreCase(userName));
+//    }
 
-        System.out.println("Welcome to your Friendly Neighborhood Bank.");
-        System.out.println("Are you a new user?");
-        System.out.println("1. Yes");
-        System.out.println("2. No");
-        System.out.print("Enter your option: ");
-        int choice = sc.nextInt();
+    // Method to ensure that the user only has 2 options, which are checking or savings.
+//    private int getValidChoice(Scanner sc) {
+//        while (true) {
+//            try {
+//                int choice = sc.nextInt();
+//                if (choice >= 1 && choice <= 2) {
+//                    return choice;
+//                }
+//                System.out.println("Please choose either " + 1 + " and " + 2);
+//            } catch (InputMismatchException e) {
+//                System.out.println("Invalid input. Try again");
+//                sc.next();
+//            }
+//        }
+//    }
 
-        switch (choice) {
-            case 1:
-//               Account newUserAccount = newCustomer(sc);
-                return newCustomer(sc);
-            case 2: {
-                try {
-                    int attempts = 0;
-
-                    while (attempts <= 3) {
-                        attempts++;
-                        System.out.print("Please enter your name: ");
-                        String name = sc.next();
-                        System.out.print("Please enter your 4 digit pin number: ");
-                        int userPin = sc.nextInt();
-
-                        for (User userAccount : accounts) {
-                            if (userAccount != null) {
-                                String userName = userAccount.getUserId();
-                                int pinNumber = userAccount.getPinNumber();
-
-                                if ((userPin == pinNumber) && name.equals(userName)) {
-                                    userAccount.getGreeting();
-                                    return userAccount;
-                                }
-                            }
-                            return userAccount;
-                        }
-                    }
-                } catch (Exception e) {
-                    System.out.println("Invalid input. Try again" + e.getMessage());
-                    sc.nextLine();
+    // Method to ensure the user will enter only numeric values ranging from 1000 to 9999. (No special characters or letters)
+    private int getValidPin(Scanner sc) {
+        while (true) {
+            try {
+                int pin = sc.nextInt();
+                if (pin >= 1000 && pin <= 9999) {
+                    return pin;
                 }
+                System.out.println("PIN must be 4 digits. Please try again");
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input. Please enter a 4-digit number");
+                sc.next();
             }
         }
-        return null;
     }
 }

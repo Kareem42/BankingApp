@@ -7,7 +7,7 @@ public abstract class Account {
     public Account() {
     }
 
-    public Account(String userId, double balance, int accountNumber, int pin) {
+    public Account( double balance, int accountNumber) {
         this.balance = balance;
         this.accountNumber = accountNumber;
     }
@@ -34,6 +34,10 @@ public abstract class Account {
 
     public int getAccountNumber() {
         return accountNumber;
+    }
+
+    public User getUser() {
+        return null;
     }
 
 }

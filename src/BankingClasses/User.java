@@ -1,57 +1,43 @@
 package BankingClasses;
 
-import java.util.*;
+// Uses for record class vs java class
+/*
+- All fields are implicitly final
+- No inheritance, which means it can't be extended by another class
+- No instance fields
+- Can implement interfaces, allowing them to participate in various behaviors and platforms
+- Can have methods
+ */
 
-public class User {
-    private String userId;
-    private int pinNumber;
-    private final int accountNumber;
-    private final List<Account> userAccountList = new ArrayList<>();
+public record User(String firstName, String lastName, String userName, int pin) {
 
-    public User(String userId, int pinNumber, int accountNumber) {
-        this.userId = userId;
-        this.pinNumber = pinNumber;
-        this.accountNumber = getGeneratedAccountNumber();
-        initializeAccounts();
-    }
-
-    private void initializeAccounts() {
-        userAccountList.add(new CheckingAccount(userId, 5.0, getGeneratedAccountNumber(), pinNumber));
-        userAccountList.add(new SavingAccount(userId, 5.0, getGeneratedAccountNumber(), pinNumber));
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-    public int getPinNumber() {
-        return pinNumber;
-    }
-
-    public void setPinNumber(int pinNumber) {
-        this.pinNumber = pinNumber;
-    }
+    private static UserOperations userOperations;
 
     public int getAccountNumber() {
-        return accountNumber;
-    }
-
-    public List<Account> getUserAccountList() {
-        return userAccountList;
-    }
-
-    public int getGeneratedAccountNumber() {
         return (int) (Math.random() * 9000) + 1000;
     }
 
-    public void getGreeting() {
-        System.out.println("Welcome back, " + userId + "! You are currently viewing your account "
-                + accountNumber + ". How can we help you today?");
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public int getPin() {
+        return pin;
+    }
+
+    public UserOperations getUserOperations() {
+        return userOperations;
+    }
+
+    public void setUserOperations(UserOperations userOperations) {
+        User.userOperations = userOperations;
     }
 }
-
-
