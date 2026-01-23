@@ -9,6 +9,7 @@ import java.util.*;
         */
 public class Communication {
     private final List<User> accounts = new ArrayList<>();
+    private final List<Account> createdAccountList = new ArrayList<>();
 
     public User signIn(Scanner sc) {
         System.out.println("Welcome to your Friendly Neighborhood Bank.");
@@ -35,7 +36,7 @@ public class Communication {
                         for (User userAccount : accounts) {
                             if (userAccount != null) {
                                 String userName = String.valueOf(userAccount.getUserName());
-                                int pinNumber = userAccount.pin();
+                                int pinNumber = userAccount.getPin();
 
                                 if ((userPin == pinNumber) && name.equals(userName)) {
                                     return userAccount;
@@ -81,26 +82,19 @@ public class Communication {
 
         // Creating a user and operations with an account type
         User user = new User(firstName, lastName, userName, pin);
-        UserOperations userOps = new UserOperations(user, pin, user.getUserOperations().getUserAccountList());
+        UserOperations userOps = new UserOperations(user, pin, createdAccountList);
 
         user.setUserOperations(userOps);
 
-//        // Checking for duplicate username
-//        if (isUserNameValid(userName)) {
-//            System.out.println("Username is already in use. Please try again");
-//            return null;
-//        }
         String accountType;
         int accountNumber = user.getAccountNumber();
 
         if (choice == 1) {
             userOps.createCheckingAccount(5.00);
-            accountNumber = userOps.getCheckingAccountList().getFirst().getAccountNumber();
             accountType = "checking";
         } else {
             userOps.createSavingAccount(5.00);
-            accountNumber = userOps.getSavingAccountList().getFirst().getAccountNumber();
-            accountType = "checking";
+            accountType = "savings";
         }
 
         System.out.printf("Welcome, %s! Your new %s account number is: %s%n",
@@ -189,28 +183,6 @@ public class Communication {
         }
         sc.close();
     }
-
-//    // Method used to check for duplicate usernames to ensure that the username that's entered by the user is unique.
-//    private boolean isUserNameValid(String userName) {
-//        return accounts.stream()
-//                .anyMatch(user -> user.getUserName().equalsIgnoreCase(userName));
-//    }
-
-    // Method to ensure that the user only has 2 options, which are checking or savings.
-//    private int getValidChoice(Scanner sc) {
-//        while (true) {
-//            try {
-//                int choice = sc.nextInt();
-//                if (choice >= 1 && choice <= 2) {
-//                    return choice;
-//                }
-//                System.out.println("Please choose either " + 1 + " and " + 2);
-//            } catch (InputMismatchException e) {
-//                System.out.println("Invalid input. Try again");
-//                sc.next();
-//            }
-//        }
-//    }
 
     // Method to ensure the user will enter only numeric values ranging from 1000 to 9999. (No special characters or letters)
     private int getValidPin(Scanner sc) {

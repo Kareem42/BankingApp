@@ -1,15 +1,17 @@
 package BankingClasses;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class UserOperations {
     private int pin;
-    private double balance;
     private final User user;
     private final List<Account> userAccountList;
     private final List<CheckingAccount> userChecking = new ArrayList<>();
     private final List<SavingAccount> userSavings = new ArrayList<>();
+    private final Set<Integer> existingAccountNumbers = new HashSet<>();
 
     public UserOperations(User user, int pinNumber, List<Account> userAccountList) {
         this.user = user;
@@ -30,7 +32,12 @@ public class UserOperations {
     }
 
     private int getGeneratedAccountNumber() {
-        return (int) (Math.random() * 9000) + 1000;
+        int accountNumber;
+        do {
+            accountNumber = (int) (Math.random() * 9000) + 1000;
+        } while (existingAccountNumbers.contains(accountNumber));
+        existingAccountNumbers.add(accountNumber);
+        return accountNumber;
     }
 
     public void createCheckingAccount(double balance) {

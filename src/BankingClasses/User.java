@@ -1,17 +1,16 @@
 package BankingClasses;
 
-// Uses for record class vs java class
-/*
-- All fields are implicitly final
-- No inheritance, which means it can't be extended by another class
-- No instance fields
-- Can implement interfaces, allowing them to participate in various behaviors and platforms
-- Can have methods
- */
+public class User {
+    String firstName, lastName, userName;
+    int pin;
+    private UserOperations userOperations;
 
-public record User(String firstName, String lastName, String userName, int pin) {
-
-    private static UserOperations userOperations;
+    public User(String firstName, String lastName, String userName, int pin) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.userName = userName;
+        this.pin = pin;
+    }
 
     public int getAccountNumber() {
         return (int) (Math.random() * 9000) + 1000;
@@ -38,6 +37,6 @@ public record User(String firstName, String lastName, String userName, int pin) 
     }
 
     public void setUserOperations(UserOperations userOperations) {
-        User.userOperations = userOperations;
+        this.userOperations = userOperations;
     }
 }

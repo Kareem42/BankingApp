@@ -39,5 +39,4 @@ public abstract class Account {
     public User getUser() {
         return null;
     }
-
 }
