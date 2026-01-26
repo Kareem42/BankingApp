@@ -1,5 +1,7 @@
 package BankingClasses;
 
+import java.util.*;
+
 public class User {
     String firstName, lastName, userName;
     int pin;
@@ -12,8 +14,13 @@ public class User {
         this.pin = pin;
     }
 
-    public int getAccountNumber() {
-        return (int) (Math.random() * 9000) + 1000;
+    public void getAccountNumber() {
+        Random rand = new Random();
+        rand.nextInt(10000);
+    }
+
+    public void setAccountNumber(int accountNumber) {
+        this.getAccountNumber();
     }
 
     public String getFirstName() {

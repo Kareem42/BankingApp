@@ -81,13 +81,13 @@ public class Communication {
         int pin = getValidPin(sc);
 
         // Creating a user and operations with an account type
-        User user = new User(firstName, lastName, userName, pin);
-        UserOperations userOps = new UserOperations(user, pin, createdAccountList);
+        User userCreated = new User(firstName, lastName, userName, pin);
+        UserOperations userOps = new UserOperations(userCreated, pin, createdAccountList);
 
-        user.setUserOperations(userOps);
+        // Ensuring that the user can interact with their account once the account is created.
+        userCreated.setUserOperations(userOps);
 
         String accountType;
-        int accountNumber = user.getAccountNumber();
 
         if (choice == 1) {
             userOps.createCheckingAccount(5.00);
@@ -97,28 +97,29 @@ public class Communication {
             accountType = "savings";
         }
 
-        System.out.printf("Welcome, %s! Your new %s account number is: %s%n",
-                userName, accountType, accountNumber);
+        System.out.println("Welcome, " + userCreated.getUserName().toUpperCase() + " to your new " + accountType + " account.");
 
         // Storing the new created account (checking or savings)
-        accounts.add(user);
+        accounts.add(userCreated);
 
-        return user;
+        return userCreated;
     }
 
     public User accountActions(Scanner sc, User user) {
         System.out.println("Which account would you like to view?");
-        System.out.println("1. Checking");
-        System.out.println("2. Savings");
+        System.out.println("1. Checking Account");
+        System.out.println("2. Savings Account");
+        System.out.println("3. Exit");
         System.out.print("Enter your option: ");
         int accountChoice = sc.nextInt();
 
+        // Need to find a better way to handle the IndexOutOfBoundsException
         Account account = user.getUserOperations().getUserAccountList().get(accountChoice - 1);
 
         System.out.println("1. Check Balance");
         System.out.println("2. Deposit Money");
         System.out.println("3. Withdraw Money");
-        System.out.println("4. Logout");
+        System.out.println("4. Exit");
         System.out.print("Enter your option: ");
         int actions = sc.nextInt();
 
